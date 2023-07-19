@@ -1,4 +1,4 @@
-﻿# Jogo da Velha :hash:
+﻿# Jogo da Velha
 Jogo TicTac Toe, desenvolvido em linguagem C#, e executado através do Windows Console.
 
 💻 Tecnologia utilizada
