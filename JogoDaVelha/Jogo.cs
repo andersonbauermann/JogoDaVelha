@@ -4,12 +4,12 @@ namespace JogoDaVelha
 {
     class Jogo
     {
-        static char[] tabuleiro = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-        static int jogadorAtual = 1;
+        static char[] board = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+        static int currentPlayer = 1;
         static string player;
         static string playerOne;
         static string playerTwo;
-        static int totalJogadas = 0;
+        static int totalMove = 0;
         static bool endGame = false;
 
         public void Start()
@@ -22,15 +22,15 @@ namespace JogoDaVelha
 
             while (!endGame)
             {
-                player = jogadorAtual == 1 ? playerOne : playerTwo;
+                player = currentPlayer == 1 ? playerOne : playerTwo;
 
-                DesenharTabuleiro();
+                DrawBoard();
                 Console.WriteLine($"Vez do jogador {player}");
-                ValidaOpcao();
+                ValidateOption();
 
-                if (totalJogadas == 9 && !endGame)
+                if (totalMove == 9 && !endGame)
                 {
-                    DesenharTabuleiro();
+                    DrawBoard();
                     Console.WriteLine("Empate! Ninguém ganhou e ninguém perdeu.");
                     Console.WriteLine("E acaba o jogo! Pressione qualquer tecla para sair.");
                     Console.ReadKey();
@@ -38,80 +38,80 @@ namespace JogoDaVelha
                 }
             }
 
-            DesenharTabuleiro();
+            DrawBoard();
         }
 
-        static void ValidaOpcao()
+        static void ValidateOption()
         {
-            int valor;
-            bool escolha = int.TryParse(Console.ReadLine(), out valor);
-            int posicao = valor - 1;
+            int choice;
+            bool validate = int.TryParse(Console.ReadLine(), out choice);
+            int position = choice - 1;
 
-            if (escolha)
+            if (validate)
             {
-                if (valor < 1 || valor > 9)
+                if (choice < 1 || choice > 9)
                 {
                     Console.WriteLine("Digite somente um número de 1 a 9 que esteja disponível.");
-                    ValidaOpcao();
+                    ValidateOption();
                 }
-                else if (tabuleiro[posicao] != 'X' && tabuleiro[posicao] != 'O')
+                else if (board[position] != 'X' && board[position] != 'O')
                 {
-                    tabuleiro[posicao] = jogadorAtual == 1 ? 'X' : 'O';
-                    totalJogadas++;
-                    if (totalJogadas >= 5)
-                        VerificarVencedor();
-                    jogadorAtual = jogadorAtual == 1 ? 2 : 1;
+                    board[position] = currentPlayer == 1 ? 'X' : 'O';
+                    totalMove++;
+                    if (totalMove >= 5)
+                        CheckWinner();
+                    currentPlayer = currentPlayer == 1 ? 2 : 1;
                 }
                 else
                 {
-                    Console.WriteLine($"Poxa, já escolheram a posição {valor}.");
+                    Console.WriteLine($"Poxa, já escolheram a posição {choice}.");
                     Console.WriteLine("Escolha outra posição: ");
-                    ValidaOpcao();
+                    ValidateOption();
                 }
             }
             else
             {
                 Console.WriteLine("Digite somente um número de 1 a 9 que esteja disponível.");
-                ValidaOpcao();
+                ValidateOption();
             }
         }
 
-        static void DesenharTabuleiro()
+        static void DrawBoard()
         {
             Console.Clear();
-            Console.WriteLine("  {0}  |  {1}  |  {2}  ", tabuleiro[0], tabuleiro[1], tabuleiro[2]);
+            Console.WriteLine("  {0}  |  {1}  |  {2}  ", board[0], board[1], board[2]);
             Console.WriteLine("-----+-----+-----");
-            Console.WriteLine("  {0}  |  {1}  |  {2}  ", tabuleiro[3], tabuleiro[4], tabuleiro[5]);
+            Console.WriteLine("  {0}  |  {1}  |  {2}  ", board[3], board[4], board[5]);
             Console.WriteLine("-----+-----+-----");
-            Console.WriteLine("  {0}  |  {1}  |  {2}  ", tabuleiro[6], tabuleiro[7], tabuleiro[8]);
+            Console.WriteLine("  {0}  |  {1}  |  {2}  ", board[6], board[7], board[8]);
         }
 
-        static void VerificarVencedor()
+        static void CheckWinner()
         {
             // verificando as linhas
-            if (tabuleiro[0] == tabuleiro[1] && tabuleiro[1] == tabuleiro[2])
+            if (board[0] == board[1] && board[1] == board[2])
                 endGame = true;
-            else if (tabuleiro[3] == tabuleiro[4] && tabuleiro[4] == tabuleiro[5])
+            else if (board[3] == board[4] && board[4] == board[5])
                 endGame = true;
-            else if (tabuleiro[6] == tabuleiro[7] && tabuleiro[7] == tabuleiro[8])
+            else if (board[6] == board[7] && board[7] == board[8])
                 endGame = true;
             // verificando as colunas
-            else if (tabuleiro[0] == tabuleiro[3] && tabuleiro[3] == tabuleiro[6])
+            else if (board[0] == board[3] && board[3] == board[6])
                 endGame = true;
-            else if (tabuleiro[1] == tabuleiro[4] && tabuleiro[4] == tabuleiro[7])
+            else if (board[1] == board[4] && board[4] == board[7])
                 endGame = true;
-            else if (tabuleiro[2] == tabuleiro[5] && tabuleiro[5] == tabuleiro[8])
+            else if (board[2] == board[5] && board[5] == board[8])
                 endGame = true;
             // verificando as diagonais
-            else if (tabuleiro[0] == tabuleiro[4] && tabuleiro[4] == tabuleiro[8])
+            else if (board[0] == board[4] && board[4] == board[8])
                 endGame = true;
-            else if (tabuleiro[2] == tabuleiro[4] && tabuleiro[4] == tabuleiro[6])
+            else if (board[2] == board[4] && board[4] == board[6])
                 endGame = true;
 
 
             if (endGame)
             {
-                DesenharTabuleiro();
+                DrawBoard();
                 Console.WriteLine("*-*-*-*-*-*-*-*-*-*-*-*-*-*");
                 Console.WriteLine($"Vitória do jogador {player}");
                 Console.WriteLine("*-*-*-*-*-*-*-*-*-*-*-*-*-*");
