@@ -44,7 +44,7 @@ namespace JogoDaVelha
             DrawBoard();
         }
 
-        statid void ValidateInput()
+        static void ValidateInput()
         {
             bool s1 = string.IsNullOrEmpty(playerOne);
             playerOne = !s1 ? playerOne : "X";
