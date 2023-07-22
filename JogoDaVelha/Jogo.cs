@@ -17,9 +17,12 @@ namespace JogoDaVelha
             Console.WriteLine("Bem vindo ao Jogo da Velha digital!");
             Console.Write("Digite o nome do jogador que será o X (xis):");
             playerOne = Console.ReadLine();
+
             Console.Write("Digite o nome do jogador que será o O (bolinha):");
             playerTwo = Console.ReadLine();
 
+            ValidateInput();
+       
             while (!endGame)
             {
                 player = currentPlayer == 1 ? playerOne : playerTwo;
@@ -39,6 +42,15 @@ namespace JogoDaVelha
             }
 
             DrawBoard();
+        }
+
+        statid void ValidateInput()
+        {
+            bool s1 = string.IsNullOrEmpty(playerOne);
+            playerOne = !s1 ? playerOne : "X";
+
+            bool s2 = string.IsNullOrEmpty(playerTwo);
+            playerTwo = !s2 ? playerTwo : "O";
         }
 
         static void ValidateOption()
